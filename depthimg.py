@@ -6,13 +6,13 @@ openni2.initialize('/home/spadesk/library/OpenNI2/Bin/x64-Release')
 dev = openni2.Device.open_any()
 depth_stream = dev.create_depth_stream()
 depth_stream.start()
-depth_stream.set_video_mode(c_api.OniVideoMode(pixelFormat=c_api.OniPixelFormat.ONI_PIXEL_FORMAT_DEPTH_1_MM,
-                                               resolutionX=640, resolutionY=480, fps=30))
+depth_stream.set_video_mode(c_api.OniVideoMode(pixelFormat=c_api.OniPixelFormat.ONI_PIXEL_FORMAT_DEPTH_100_UM,
+                                               resolutionX=320, resolutionY=240, fps=30))
 while True:
     frame = depth_stream.read_frame()
-    frame_data = frame.get_buffer_as_uint16()
+    frame_data = frame.get_buffer_as_uint8()
     img = np.frombuffer(frame_data, dtype=np.uint16)
-    img.shape = (1, 480, 640)
+    img.shape = (1, 240, 320)
     img = np.concatenate(img)
     # img = np.concatenate((img, img, img), axis=0)
     # img = np.swapaxes(img, 0, 2)
